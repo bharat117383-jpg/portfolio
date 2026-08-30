@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bharat — CSE Student · AI/ML Enthusiast · Developer</title>
+<meta name="description" content="Portfolio of Bharat, a CSE engineering student building intelligent systems at the intersection of hardware, software, and AI." />
+
+<!-- ============================================================
+     FONTS
+     Space Grotesk  -> display face (headings) — geometric, technical
+     Inter           -> body face — clean, highly readable
+     JetBrains Mono  -> "telemetry" labels, eyebrows, data readouts
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body>
+
+<!-- ============================================================
+     CUSTOM CURSOR (desktop only — see script.js / prefers-reduced-motion)
+     ============================================================ -->
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- Scroll progress indicator -->
+<div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
+
+<!-- ============================================================
+     NAVIGATION
+     Sticky glassmorphic navbar. Uses <nav> for semantics + a11y.
+     ============================================================ -->
+<header class="navbar" id="navbar">
+  <nav class="nav-inner" aria-label="Primary">
+    <a href="#home" class="logo" aria-label="Bharat — home">
+      <span class="logo-mark">B</span>
+      <span class="logo-text">bharat<span class="dot">.</span>dev</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link active-link" data-nav>Home</a></li>
+      <li><a href="#about" class="nav-link" data-nav>About</a></li>
+      <li><a href="#skills" class="nav-link" data-nav>Skills</a></li>
+      <li><a href="#projects" class="nav-link" data-nav>Projects</a></li>
+      <li><a href="#journey" class="nav-link" data-nav>Journey</a></li>
+      <li><a href="#contact" class="nav-link" data-nav>Contact</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-cta">Let's talk</a>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" data-nav>Home</a>
+    <a href="#about" data-nav>About</a>
+    <a href="#skills" data-nav>Skills</a>
+    <a href="#projects" data-nav>Projects</a>
+    <a href="#journey" data-nav>Journey</a>
+    <a href="#contact" data-nav>Contact</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================
+     1. HERO
+     Left: identity + CTAs.  Right: interactive 3D "sensor node"
+     (Three.js) that reacts to pointer movement — a nod to the
+     embedded/IoT sensor work in the Projects section.
+     ============================================================ -->
+<section id="home" class="hero">
+  <canvas id="particleCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <div class="hero-inner">
+    <div class="hero-copy" data-reveal>
+      <div class="eyebrow mono">
+        <span class="pulse-dot"></span> STATUS: ONLINE — OPEN TO OPPORTUNITIES
+
+      </div>
+      <div class="profile-photo-wrap">
+    <img src="images/profile.jpg" alt="Bharat" class="profile-photo">
+</div>
+      <h1 class="hero-name">
+        Hi, I'm <span class="gradient-text">Bharat Chandra</span>
+      </h1>
+
+      <p class="hero-title mono">CSE Student&nbsp;•&nbsp;AI/ML Enthusiast&nbsp;•&nbsp;Developer</p>
+
+      <p class="hero-tagline">
+        I build intelligent systems at the intersection of hardware, software,
+        and AI — one sensor, one line of code at a time.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <span>View Projects</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost">Contact Me</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" data-count="5">0</span><span class="stat-label">Core Languages</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat"><span class="stat-num" data-count="1">0</span><span class="stat-label">Flagship Project</span></div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat"><span class="stat-num" data-count="1">0</span><span class="stat-label">Patent In Progress</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" data-reveal>
+      <div class="node-hud mono" aria-hidden="true">
+        <span>NODE_01</span>
+        <span id="hudCoords">X:00.0 Y:00.0</span>
+      </div>
+      <canvas id="heroCanvas" aria-label="Interactive 3D visualization of a networked sensor node"></canvas>
+      <div class="node-hud node-hud-bottom mono" aria-hidden="true">
+        <span>SIGNAL <span class="hud-bar"><i></i></span></span>
+      </div>
+    </div>
+  </div>
+
+  <a href="#about" class="scroll-cue" aria-label="Scroll to About section">
+    <span>SCROLL</span>
+    <div class="scroll-cue-line"></div>
+  </a>
+</section>
+
+<!-- ============================================================
+     2. ABOUT
+     Intro + a tabbed interactive panel (Education / Interests /
+     Direction) rather than a static wall of text.
+     ============================================================ -->
+<section id="about" class="section">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.01 — ABOUT</p>
+    <h2 class="section-title" data-reveal>Engineer in training,<br/>builder by habit.</h2>
+
+    <div class="about-grid">
+      <p class="about-intro" data-reveal>
+        I'm Bharat, a Computer Science &amp; Engineering student who likes taking ideas
+        past the whiteboard — into working code, circuits, and systems. I'm early in
+        my journey, but I already spend most of my time where hardware, software and
+        machine learning intersect: reading sensor data, shaping it with algorithms,
+        and shipping it as something people can actually use.
+      </p>
+
+      <div class="about-panel glass" data-reveal data-tilt>
+        <div class="tab-list" role="tablist" aria-label="About sections">
+          <button class="tab-btn active" role="tab" aria-selected="true" data-tab="education">Education</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="interests">Interests</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="direction">Direction</button>
+        </div>
+
+        <div class="tab-panels">
+          <!-- EDIT ME: swap in your real college / branch / year -->
+          <div class="tab-panel active" id="tab-education" role="tabpanel">
+            <h3>Education</h3>
+            <p>B.Tech in Computer Science CORE SUBJECTS (AI/ML) &amp; Engineering — <em>LOVELY PROFESSIONAL UNIVERSITY, PUNJAB</em></p>
+            <p class="muted">Expected graduation: <em>[YEAR:2029]</em> &nbsp;•&nbsp; Focus areas: Data Structures &amp; Algorithms, Embedded Systems, Machine Learning</p>
+          </div>
+
+          <div class="tab-panel" id="tab-interests" role="tabpanel" hidden>
+            <h3>Interest /h3>
+            <ul class="pill-list">
+              <li>INDIAN HISTORY LIKE &amp; RAMAYANA , MAHABHARAT</li>
+              <li>Applied machine learning with python</li>
+              <li>problem solving in maths</li>
+              <li>physic building</li>
+            </ul>
+          </div>
+
+          <div class="tab-panel" id="tab-direction" role="tabpanel" hidden>
+            <h3>Career Direction</h3>
+            <p>Working toward a role as a software / AI developer — ideally one that
+              still lets me get my hands on hardware. I like problems that don't stay
+              on one layer of the stack.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. SKILLS
+     Category cards with animated proficiency bars that fill on
+     scroll into view. Tilt-on-hover for the "premium" feel.
+     ============================================================ -->
+<section id="skills" class="section section-alt">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.02 — SKILLS</p>
+    <h2 class="section-title" data-reveal>What I build with.</h2>
+    <p class="section-sub" data-reveal>Still growing every one of these — here's the current readout.</p>
+
+    <div class="skills-grid">
+
+      <article class="skill-card glass" data-reveal data-tilt>
+        <div class="skill-card-head">
+          <span class="skill-icon" aria-hidden="true">&lt;/&gt;</span>
+          <h3>Programming</h3>
+        </div>
+        <ul class="skill-bars">
+          <li><div class="skill-row"><span>C++</span><span class="mono">80%</span></div><div class="bar"><span style="--val:80%"></span></div></li>
+          <li><div class="skill-row"><span>Python</span><span class="mono">85%</span></div><div class="bar"><span style="--val:85%"></span></div></li>
+          <li><div class="skill-row"><span>JavaScript</span><span class="mono">70%</span></div><div class="bar"><span style="--val:70%"></span></div></li>
+          <li><div class="skill-row"><span>HTML &amp; CSS</span><span class="mono">80%</span></div><div class="bar"><span style="--val:80%"></span></div></li>
+        </ul>
+      </article>
+
+      <article class="skill-card glass" data-reveal data-tilt>
+        <div class="skill-card-head">
+          <span class="skill-icon" aria-hidden="true">{;}</span>
+          <h3>CS &amp; DSA</h3>
+        </div>
+        <ul class="skill-bars">
+          <li><div class="skill-row"><span>Data Structures currently working on it</span><span class="mono">10%</span></div><div class="bar"><span style="--val:75%"></span></div></li>
+          <li><div class="skill-row"><span>Algorithms based on python</span><span class="mono">50%</span></div><div class="bar"><span style="--val:70%"></span></div></li>
+          <li><div class="skill-row"><span>Problem Solving like maths</span><span class="mono">75%</span></div><div class="bar"><span style="--val:75%"></span></div></li>
+        </ul>
+      </article>
+
+      <article class="skill-card glass" data-reveal data-tilt>
+        <div class="skill-card-head">
+          <span class="skill-icon" aria-hidden="true">◎</span>
+          <h3>AI / ML</h3>
+        </div>
+        <ul class="skill-bars">
+          <li><div class="skill-row"><span>Python for ML</span><span class="mono">65%</span></div><div class="bar"><span style="--val:65%"></span></div></li>
+          <li><div class="skill-row"><span>Data Handling</span><span class="mono">60%</span></div><div class="bar"><span style="--val:60%"></span></div></li>
+          <li><div class="skill-row"><span>ML Fundamentals</span><span class="mono">55%</span></div><div class="bar"><span style="--val:55%"></span></div></li>
+        </ul>
+      </article>
+
+      <article class="skill-card glass" data-reveal data-tilt>
+        <div class="skill-card-head">
+          <span class="skill-icon" aria-hidden="true">⌘</span>
+          <h3>Web Development</h3>
+        </div>
+        <ul class="skill-bars">
+          <li><div class="skill-row"><span>HTML / CSS</span><span class="mono">80%</span></div><div class="bar"><span style="--val:80%"></span></div></li>
+          <li><div class="skill-row"><span>JavaScript</span><span class="mono">70%</span></div><div class="bar"><span style="--val:70%"></span></div></li>
+          <li><div class="skill-row"><span>Responsive UI</span><span class="mono">65%</span></div><div class="bar"><span style="--val:65%"></span></div></li>
+        </ul>
+      </article>
+
+      <article class="skill-card glass" data-reveal data-tilt>
+        <div class="skill-card-head">
+          <span class="skill-icon" aria-hidden="true">⎇</span>
+          <h3>Tools</h3>
+        </div>
+        <ul class="skill-bars">
+          <li><div class="skill-row"><span>Git</span><span class="mono">75%</span></div><div class="bar"><span style="--val:75%"></span></div></li>
+          <li><div class="skill-row"><span>GitHub</span><span class="mono">75%</span></div><div class="bar"><span style="--val:75%"></span></div></li>
+          <li><div class="skill-row"><span>VS Code</span><span class="mono">85%</span></div><div class="bar"><span style="--val:85%"></span></div></li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PROJECTS
+     Tilt-on-hover cards. AIEMS is the real flagship project;
+     the second card is a clearly-marked placeholder to duplicate.
+     ============================================================ -->
+<section id="projects" class="section">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.03 — PROJECTS</p>
+    <h2 class="section-title" data-reveal>Things I've built.</h2>
+    <p class="section-sub" data-reveal>A.</p>
+
+    <div class="projects-grid">
+
+      <!-- Flagship project — AIEMS -->
+      <article class="project-card glass featured" data-reveal data-tilt>
+        <div class="project-glow" aria-hidden="true"></div>
+        <div class="project-top">
+          <span class="project-tag mono">SMS</span>
+          <span class="project-status mono">Paper + Patent in progress</span>
+        </div>
+        <h3>STUDENT MANAGEMENT SYSTEM</h3>
+        <p class="project-full-name muted">Student Management System</p>
+        <p class="project-desc">
+         A Python-based Student Management System designed to manage student records efficiently. 
+         The project allows users to add, view, search, update, and delete 
+         student information while practicing core Python programming concepts and file handling.
+        </p>
+
+        <ul class="feature-list">
+        <li>Add and manage student records</li>
+        <li>Search and retrieve student information</li>
+        <li>Update and delete records</li>
+        <li>Store data using file handling</li>
+    </ul>
+
+     <div class="tech-tags">
+  <span>Python</span><span>OOP</span><span>File Handling</span><span>Data Management</span>
+</div>
+         <div class="project-stack">
+        <span>Python</span>
+        <span>OOP</span>
+        <span>File Handling</span>
+    </div>
+    <div class="project-links">
+        <a href="#" class="btn btn-secondary">
+            GitHub
+        </a>
+    </div>
+
+        <div class="project-actions">
+          <!-- EDIT ME: link to the real repo once it's public -->
+          <a href="#" class="btn btn-outline btn-sm" aria-disabled="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub — coming soon
+          </a>
+        </div>
+      </article>
+
+      <!-- Placeholder project card — duplicate this block for each new project -->
+      <article class="project-card glass" data-reveal data-tilt>
+        <div class="project-glow" aria-hidden="true"></div>
+        <div class="project-top">
+          <span class="project-tag mono">PROJECT</span>
+        </div>
+        <h3>Your Next Project</h3>
+        <p class="project-desc">
+  A team-based Smart India Hackathon project focused on developing a practical
+  technology solution for a real-world problem. The project combines research,
+  problem analysis, software development, and user-focused design to create
+  an accessible and scalable solution.
+</p>
+        <ul class="feature-list">
+          <li>Key feature one</li>
+          <li>Key feature two</li>
+          <li>Key feature three</li>
+        </ul>
+       <div class="tech-tags">
+  <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Python</span><span>AI/ML</span><span>GitHub</span>
+</div>
+        <div class="project-actions">
+          <a href="#" class="btn btn-outline btn-sm">GitHub</a>
+          <a href="#" class="btn btn-ghost btn-sm">Live Demo</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. JOURNEY (Education / learning timeline)
+     Vertical scroll-triggered timeline. Numbers here are
+     appropriate — this content really is chronological.
+     ============================================================ -->
+<section id="journey" class="section section-alt">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.04 — JOURNEY</p>
+    <h2 class="section-title" data-reveal>How I got here.</h2>
+
+    <ol class="timeline">
+      <!-- EDIT ME: replace with your real milestones -->
+      <li class="timeline-item" data-reveal>
+        <div class="timeline-dot"></div>
+        <span class="timeline-year mono">Year 1</span>
+        <h3>Started my CSE degree</h3>
+        <p>Picked up pyhton and the fundamentals of programming and computer architecture.</p>
+      </li>
+      <li class="timeline-item" data-reveal>
+        <div class="timeline-dot"></div>
+        <span class="timeline-year mono">Year 1–2</span>
+        <h3>Strated trying to solve the ml projects using python</h3>
+        <p>Started solving problems regularly and building a real feel for algorithmic thinking.</p>
+      </li>
+      <li class="timeline-item" data-reveal>
+        <div class="timeline-dot"></div>
+        <span class="timeline-year mono">Year 2</span>
+        <h3>Picked up web development</h3>
+        <p>Learned HTML, CSS and JavaScript and started building small interactive projects.</p>
+      </li>
+    <li class="timeline-item" data-reveal>
+  <div class="timeline-dot"></div>
+  <span class="timeline-year mono">Now</span>
+  <h3>Working on Smart India Hackathon Project</h3>
+  <p>
+    Collaborating on an SIH project focused on solving a real-world challenge
+    affecting both rural and urban areas. Working on research, prototyping,
+    and technology integration to develop a practical, scalable solution
+    with meaningful social impact.
+  </p>
+</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. ACHIEVEMENTS / EXPERIENCE
+     A grid you can keep dropping new cards into.
+     ============================================================ -->
+<section id="achievements" class="section">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.05 — ACHIEVEMENTS</p>
+    <h2 class="section-title" data-reveal>Milestones along the way.</h2>
+    <p class="section-sub" data-reveal>ACMEGRADE INTERNSHIP, certificate of python from infosys, toped in the tenth and 12th board</p>
+
+    <div class="achieve-grid">
+      <!-- EDIT ME: duplicate this article for each new achievement -->
+      <article class="achieve-card glass" data-reveal data-tilt>
+        <span class="achieve-kind mono">ACADEMIC</span>
+        <h3>Research paper &amp; patent — PIZEOELECTRIC SENSOR INTEGRATED WITH AI</h3>
+        <p>Preparing an IEEE-format research paper and a patent specification for the
+          PEZIO ELECTRIC SENSORS INTEGRATED WITH AI</p>
+      </article>
+
+      <article class="achieve-card glass placeholder-card" data-reveal data-tilt>
+        <span class="achieve-kind mono">HACKATHON</span>
+        <h3>JOINED IN THE PAID ACMEGRADE INTERNSHIP</h3>
+        <p>for enhancing the skill it is still on the progress, i started building , and one line on what you built.</p>
+      </article>
+
+      <article class="achieve-card glass placeholder-card" data-reveal data-tilt>
+        <span class="achieve-kind mono">CERTIFICATION</span>
+        <h3> certification here</h3>
+        <p>certificate of python from infosys, PYTHON PROGRAMMING FUNDATEMENTELS PART1 AND PART2, PROGRAMMING LANGUAGE AND TUTORING EXPERENICE.</p>
+      </article>
+
+      <article class="achieve-card glass placeholder-card" data-reveal data-tilt>
+        <span class="achieve-kind mono">COMPETITION</span>
+        <h3>competition here</h3>
+        <p>Competition name and how you placed.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. CURRENT FOCUS
+     Visually dynamic "now" panel — separate from the static Journey.
+     ============================================================ -->
+<section id="focus" class="section section-alt">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.06 — CURRENT FOCUS</p>
+    <h2 class="section-title" data-reveal>What I'm working on right now.</h2>
+
+    <div class="focus-grid">
+      <div class="focus-card glass" data-reveal data-tilt>
+        <div class="focus-pulse" aria-hidden="true"></div>
+        <h3>Finishing the AIEMS paper &amp; patent</h3>
+        <p>Reconciling the IEEE paper and patent specification — figures, algorithm
+          descriptions, and alert classification labels all need to match exactly.</p>
+      </div>
+      <div class="focus-card glass" data-reveal data-tilt>
+        <div class="focus-pulse" aria-hidden="true"></div>
+        <h3>Sharpening DSA fundamentals</h3>
+        <p>Working through data structures and algorithms consistently to build
+          real problem-solving speed.</p>
+      </div>
+      <div class="focus-card glass" data-reveal data-tilt>
+        <div class="focus-pulse" aria-hidden="true"></div>
+        <h3>Exploring applied machine learning</h3>
+        <p>Learning how ML models are trained and deployed — with an eye toward
+          feeding real sensor data (like AIEMS produces) into them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. CONTACT
+     ============================================================ -->
+<section id="contact" class="section contact-section">
+  <div class="container">
+    <p class="channel-tag mono" data-reveal>CH.07 — CONTACT</p>
+    <h2 class="section-title" data-reveal>Let's build something.</h2>
+    <p class="section-sub" data-reveal>Open to internships, collaborations, and interesting problems.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info" data-reveal>
+        <!-- EDIT ME: swap in your real details -->
+        <a class="contact-link" href="mailto:bharat117383@gamil.com">
+          <span class="contact-icon" aria-hidden="true">✉</span>
+          <span>bharat117383@gamil.com</span>
+        </a>
+        <a class="contact-link" href="https://github.com/bharat117383-jpg" target="_blank" rel="noopener">
+          <span class="contact-icon" aria-hidden="true">⌥</span>
+          <span>github.com/BharatChandra</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/bharat-chandra70/" target="_blank" rel="noopener">
+          <span class="contact-icon" aria-hidden="true">in</span>
+          <span>linkedin.com/in/BharatChandra</span>
+        </a>
+
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="GitHub" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.15C0 .52.53 0 1.19 0h13.62C15.47 0 16 .52 16 1.15v13.7c0 .63-.53 1.15-1.19 1.15H1.19C.53 16 0 15.48 0 14.85V1.15zM4.75 6.02H2.24v7.6h2.5v-7.6zM3.5 4.97c.8 0 1.31-.53 1.31-1.2-.01-.68-.5-1.2-1.29-1.2-.8 0-1.32.52-1.32 1.2 0 .67.51 1.2 1.29 1.2h.01zM13.5 13.62h.01v-4.2c0-2.25-1.2-3.3-2.8-3.3-1.29 0-1.87.71-2.19 1.21v-1.04H5.99c.03.7 0 7.6 0 7.6h2.5V9.4c0-.22.02-.44.08-.6.18-.44.58-.9 1.26-.9.89 0 1.24.68 1.24 1.67v4.05h2.43z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form glass" data-reveal data-tilt>
+        <!-- EDIT ME: wire this up to Formspree, EmailJS, or your own backend -->
+        <div class="form-row">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+        </div>
+        <div class="form-row">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">
+          <span>Send Message</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="form-note mono" id="formNote" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <p class="final-cta" data-reveal>Currently building. Always learning. Let's talk about what's next.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>&copy; <span id="year"></span> Bharat. Built from scratch with HTML, CSS, JS &amp; Three.js.</p>
+    <a href="#home" class="back-to-top" aria-label="Back to top">↑ Top</a>
+  </div>
+</footer>
+
+<!-- Three.js (module build) — used only for the hero visual + ambient particles -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="script.js"></script>
+</body>
+</html>
